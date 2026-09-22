@@ -18,10 +18,10 @@ handlers:
     class: logging.FileHandler
     level: INFO
     formatter: detailed
-    filename: app.log
+    filename: storage/logs/sistema.log
 
 loggers:
-  documento_rh:
+  documento_patrimonio:
     level: DEBUG
     handlers: 
     - console

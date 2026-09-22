@@ -1,6 +1,5 @@
 from datetime import datetime
-
-from pydantic import BaseModel,Field
+from pydantic import BaseModel, Field
 
 class Documento(BaseModel):
     id: str = Field(description="ID do documento (UUID gerado pelo sistema)")
@@ -26,31 +25,13 @@ class Documento(BaseModel):
     )
     sha256: str = Field(
         min_length=64, max_length=64, description="Hash SHA-256 do documento"
-    )
-    funcionario: str = Field(
-        min_length=1, max_length=100, description="Nome do funcionário que enviou o documento"
-    )
-    setor: str = Field(
-        min_length=1, max_length=100, description="Setor do funcionário"
-    )
-    tipo_funcionario: str = Field(
-        min_length=1, max_length=50, description="Tipo do funcionário"
-    )
-    competencias: str = Field(
-        min_length=1, max_length=500, description="Competências do funcionário"
-    )
-
-class Funcionario(BaseModel):
-    id: int = Field(gt=0, description="ID do funcionário")
-    nome: str = Field(
-        min_length=1, max_length=255, description="Nome do funcionário"
+    ) 
+    numero_patrimonial: str = Field(
+        min_length=1, max_length=100, description="Número de registro patrimonial do bem"
     )
     setor: str = Field(
-        min_length=1, max_length=100, description="Setor do funcionário"
+        min_length=1, max_length=100, description="Setor onde o bem está alocado"
     )
-    tipo: str = Field(
-        min_length=1, max_length=50, description="Tipo do funcionário"
-    )
-    competencias: list[str] = Field(
-        min_items=1, description="Lista de competências do funcionário"
+    situacao: str = Field(
+        min_length=1, max_length=50, description="Situação atual do bem"
     )
