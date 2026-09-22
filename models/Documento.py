@@ -19,7 +19,8 @@ class Documento(BaseModel):
     categoria: str = Field(
         min_length=1, max_length=50, description="Categoria do documento"
     )
-    descricao: str = Field(default="", max_length=500, description="Descrição do documento")
+    descricao: str = Field(default="", max_length=500, description="Descrição do documento"
+    )
     data_upload: datetime = Field(
         description="Data e hora do upload do documento"
     )

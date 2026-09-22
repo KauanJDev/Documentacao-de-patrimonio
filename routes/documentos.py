@@ -91,9 +91,9 @@ def criar_documento(
 
     documentos = ler_json(DOCUMENTOS_FILE)
     
-    documento_seguro_para_json = jsonable_encoder(documento)
+    documento_json = jsonable_encoder(documento)
     
-    documentos.append(documento_seguro_para_json)
+    documentos.append(documento_json)
     escrever_json(DOCUMENTOS_FILE, documentos)
 
     logger.info(f"Documento com ID {documento.id} criado com sucesso.")
