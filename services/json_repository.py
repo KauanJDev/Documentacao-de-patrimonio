@@ -46,7 +46,7 @@ def buscar_por_id(arquivo: Path, id: int) -> Any:
     logger.warning(f"Item com ID {id} não encontrado no arquivo {arquivo}.")
     return None
 
-def atualizar_por_id(arquivo: Path, id: int, novos_dados: dict[str, Any]) -> bool:
+def atualizar(arquivo: Path, id: int, novos_dados: dict[str, Any]) -> bool:
     dados = ler_json(arquivo)
     for index, item in enumerate(dados):
         if item.get("id") == id:
@@ -58,7 +58,7 @@ def atualizar_por_id(arquivo: Path, id: int, novos_dados: dict[str, Any]) -> boo
     logger.warning(f"Item com ID {id} não encontrado para atualização no arquivo {arquivo}.")
     return False
 
-def deletar_por_id(arquivo: Path, id: int) -> bool:
+def deletar(arquivo: Path, id: int) -> bool:
     dados = ler_json(arquivo)
 
     nova_lista = [

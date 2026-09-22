@@ -1,0 +1,18 @@
+[
+    {
+        "id": "552862ee-9249-4aef-826a-c7983cb69a91",
+        "nome_original": "tradução-CleanCode.txt",
+        "nome_armazenado": "552862ee-9249-4aef-826a-c7983cb69a91.txt",
+        "extensao": ".txt",
+        "tipo_mime": "text/plain",
+        "tamanho": 1667,
+        "categoria": "string",
+        "descricao": "",
+        "data_upload": "2024-06-19T15:30:00",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "funcionario": "string",
+        "setor": "string",
+        "tipo_funcionario": "string",
+        "competencias": "string"
+    }
+]
