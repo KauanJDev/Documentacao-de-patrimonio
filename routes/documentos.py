@@ -4,13 +4,15 @@ from datetime import datetime
 from pathlib import Path
 from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import FileResponse
 
 from core.logging_config import logger
 from models.Documento import Documento
 from services.json_repository import (
     garantir_arquivo,
     ler_json,
-    escrever_json
+    escrever_json,
+    buscar_por_id,
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -98,3 +100,30 @@ def criar_documento(
 
     logger.info(f"Documento com ID {documento.id} criado com sucesso.")
     return documento
+
+@router.get("/{documento_id}/download",status_code=status.HTTP_200_OK)
+def baixar_documento(documento_id: str):
+    documento = buscar_por_id(DOCUMENTOS_FILE, documento_id)
+
+    if not documento:
+        logger.warning(f"Documento com ID {documento_id} não encontrado para download.")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Documento não encontrado.",
+        )
+
+    nome_armazenado = documento.get("nome_armazenado")
+    caminho_arquivo = ARQUIVOS_DIR / nome_armazenado
+
+    if not caminho_arquivo.exists():
+        logger.error(f"Arquivo fisico {caminho_arquivo} não encontrado para download.")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Arquivo fisico não encontrado.",
+        )
+
+    logger.info(f"Download do arquivo {nome_armazenado} realizado com sucesso.")
+
+    return FileResponse(path=caminho_arquivo,
+                        media_type="application/octet-stream",
+                        filename=documento.get("nome_original", "download"))

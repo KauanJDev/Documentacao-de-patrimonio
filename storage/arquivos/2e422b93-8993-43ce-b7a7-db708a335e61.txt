@@ -1,0 +1,15 @@
+Traduzindo Clean code kk(n sei inglês pov)
+
+1-Tem código
+
+isso é um livro sobre boa programação. isso é preenchido de código. nos vamos observar o código de diferentes direções. vamos olhar de baixo pra cima, de cima pra baixo, através e fora. até a hora de acabarmos, nos vamos falar muito sobre código. o que é mais, nos vamos dizer diferentes formas entre código bom e código ruim. nos vamos saber como escrever um código bom. e vamos entender como transformar um código ruim em um código bom.
+
+se pode argumentar que um livro sobre código esta de certa forma ultrapassado, que código não é um grande problema;
+é o que nos deve se preocupar é com modelos e requisitos. de fato alguns tem sugestões que nos estamos próximos do fim do código. que em breve todo código deve ser gerado em vez de escrito. que programadores não serão necessários por que simplesmente um empresário vai gerar os programas a partir de especificações.
+
+Não se preocupe! não vamos nos livrar do código, porque o código representa os detalhes dos requisitos. E nos mesmo nível são detalhes que não podem ser ignorados ou abstratos; eles tem que ser específicos. E especificar requisitos em tal detalhe que uma máquina pode executá-los é programação, tal especificação é código.
+
+Eu espero que o nosso nível de abstração das linguagens continue crescendo. eu realmente espero que os números de domínio especifico de linguagens continue a crescer. isso é uma coisa boa. Mas nos não vamos eliminar o código. De fato, todas as especificações escritas neste nível tem um grande domínio de linguagem será código.
+
+
+
