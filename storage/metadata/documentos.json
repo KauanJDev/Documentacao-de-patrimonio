@@ -1,1 +1,17 @@
-[]
+[
+    {
+        "id": "2e422b93-8993-43ce-b7a7-db708a335e61",
+        "nome_original": "tradução-CleanCode.txt",
+        "nome_armazenado": "2e422b93-8993-43ce-b7a7-db708a335e61.txt",
+        "extensao": ".txt",
+        "tipo_mime": "text/plain",
+        "tamanho": 1667,
+        "categoria": "string",
+        "descricao": "",
+        "data_upload": "2026-09-24T19:30:43.470938",
+        "sha256": "9170f9d36f1f74ca1c0e6633a3a17b066a579064479a3093a01b967f9a598b97",
+        "numero_patrimonial": "string",
+        "setor": "string",
+        "situacao": "string"
+    }
+]
