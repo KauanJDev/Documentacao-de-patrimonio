@@ -6,12 +6,12 @@
         "extensao": ".txt",
         "tipo_mime": "text/plain",
         "tamanho": 1667,
-        "categoria": "string",
-        "descricao": "",
+        "categoria": "teste2",
+        "descricao": "snaudbuab",
         "data_upload": "2026-09-24T19:30:43.470938",
         "sha256": "9170f9d36f1f74ca1c0e6633a3a17b066a579064479a3093a01b967f9a598b97",
-        "numero_patrimonial": "string",
-        "setor": "string",
-        "situacao": "string"
+        "numero_patrimonial": "6767",
+        "setor": "12",
+        "situacao": "falido"
     }
 ]
