@@ -60,19 +60,19 @@ def criar_documento(
     caminho_arquivo = ARQUIVOS_DIR / nome_armazenado
 
     if caminho_arquivo.exists():
-        logger.warning(f"Conflito de nome de armazenamento: {nome_armazenado}")
+        logger.warning(f"Conflito de nome: {nome_armazenado}")
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="Ja existe um arquivo armazenado com esse identificador.",
+            detail="Já existe um arquivo armazenado com esse ID.",
         )
 
     try:
         salvar_arquivo(conteudo, nome_armazenado)
     except Exception as e:
-        logger.error(f"Erro ao salvar o arquivo: {e}")
+        logger.error(f"Erro ao salvar arquivo: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Erro ao salvar o arquivo fisicamente.",
+            detail="Erro ao salvar arquivo fisicamente.",
         )
 
     documento = Documento(
@@ -112,18 +112,61 @@ def baixar_documento(documento_id: str):
             detail="Documento não encontrado.",
         )
 
-    nome_armazenado = documento.get("nome_armazenado")
-    caminho_arquivo = ARQUIVOS_DIR / nome_armazenado
-
-    if not caminho_arquivo.exists():
-        logger.error(f"Arquivo fisico {caminho_arquivo} não encontrado para download.")
+    try:
+        caminho_arquivo = ARQUIVOS_DIR / documento["nome_armazenado"]
+        if not caminho_arquivo.exists():
+            logger.error(f"Arquivo físico não encontrado para o documento ID {documento_id}.")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Arquivo físico não encontrado.",
+            )
+        logger.info(f"Documento com ID {documento_id} baixado com sucesso.")
+        return FileResponse(
+            path=caminho_arquivo,
+            media_type=documento["tipo_mime"],
+            filename=documento["nome_original"],
+        )
+    except Exception as e:
+        logger.error(f"Erro ao baixar documento com ID {documento_id}: {e}")
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Arquivo fisico não encontrado.",
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Erro ao baixar o documento.",
         )
 
-    logger.info(f"Download do arquivo {nome_armazenado} realizado com sucesso.")
+@router.put("/{documento_id}", response_model=Documento, status_code=status.HTTP_200_OK)
+def atualizar_metadados(documento_id: str, categoria: str = Form(...),
+                        descricao: str = Form(default=""), 
+                        numero_patrimonial: str = Form(...), 
+                        setor: str = Form(...), 
+                        situacao: str = Form(...)):
+    
+    documento = buscar_por_id(DOCUMENTOS_FILE, documento_id)
 
-    return FileResponse(path=caminho_arquivo,
-                        media_type="application/octet-stream",
-                        filename=documento.get("nome_original", "download"))
+    if not documento:
+        logger.warning(f"Documento com ID {documento_id} não encontrado para atualização.")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Documento não encontrado.",
+        )
+
+    try:
+        documento["categoria"] = categoria
+        documento["descricao"] = descricao
+        documento["numero_patrimonial"] = numero_patrimonial
+        documento["setor"] = setor
+        documento["situacao"] = situacao
+
+        documentos = ler_json(DOCUMENTOS_FILE)
+        for i, doc in enumerate(documentos):
+            if doc["id"] == documento_id:
+                documentos[i] = documento
+                break
+
+        escrever_json(DOCUMENTOS_FILE, documentos)
+        logger.info(f"Documento com ID {documento_id} atualizado com sucesso.")
+    except Exception as e:
+        logger.error(f"Erro ao atualizar documento com ID {documento_id}: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Erro ao atualizar o documento.",
+        )
