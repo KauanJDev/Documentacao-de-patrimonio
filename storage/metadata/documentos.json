@@ -28,20 +28,5 @@
         "numero_patrimonial": "adadassad",
         "setor": "string",
         "situacao": "string"
-    },
-    {
-        "id": "609ab8a6-8a75-4876-b61e-92b0cdbd6dc6",
-        "nome_original": "T20 - Ficha Editável.pdf",
-        "nome_armazenado": "609ab8a6-8a75-4876-b61e-92b0cdbd6dc6.pdf",
-        "extensao": ".pdf",
-        "tipo_mime": "application/pdf",
-        "tamanho": 4956059,
-        "categoria": "errepege",
-        "descricao": "aasasasa",
-        "data_upload": "2026-10-01T13:14:43.270038",
-        "sha256": "8a213272e6d63a4c485c8e608c61ce7b008f8fa22870385f5b7717aaf6f96fe1",
-        "numero_patrimonial": "676767",
-        "setor": "13",
-        "situacao": "usavel"
     }
 ]
