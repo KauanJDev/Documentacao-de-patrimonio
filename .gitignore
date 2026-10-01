@@ -216,3 +216,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Ignorar arquivos físicos originais
+storage/arquivos/
+
+# Ignorar logs do sistema
+storage/logs/
+
+# Ignorar backups gerados
+storage/backups/
