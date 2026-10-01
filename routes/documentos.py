@@ -7,18 +7,19 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse
 
 from core.logging_config import logger
+from core.archive_config import settings
 from models.Documento import Documento
 from services.json_repository import (
     garantir_arquivo,
     ler_json,
     escrever_json,
     buscar_por_id,
+    atualizar,
+    deletar,
 )
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-STORAGE_DIR = BASE_DIR / "storage"
-DOCUMENTOS_FILE = STORAGE_DIR / "metadata" / "documentos.json"
-ARQUIVOS_DIR = STORAGE_DIR / "arquivos"
+DOCUMENTOS_FILE = Path(settings["storage"]["diretorio_metadados"]) / "documentos.json"
+ARQUIVOS_DIR = Path(settings["storage"]["diretorio_arquivos"])
 
 router = APIRouter(
     prefix="/documentos",
@@ -156,14 +157,8 @@ def atualizar_metadados(documento_id: str, categoria: str = Form(...),
         documento["setor"] = setor
         documento["situacao"] = situacao
 
-        documentos = ler_json(DOCUMENTOS_FILE)
-        for i, doc in enumerate(documentos):
-            if doc["id"] == documento_id:
-                documentos[i] = documento
-                break
-
-        escrever_json(DOCUMENTOS_FILE, documentos)
-        logger.info(f"Documento com ID {documento_id} atualizado com sucesso.")
+        atualizar(DOCUMENTOS_FILE, documento_id, documento)
+        
     except Exception as e:
         logger.error(f"Erro ao atualizar documento com ID {documento_id}: {e}")
         raise HTTPException(

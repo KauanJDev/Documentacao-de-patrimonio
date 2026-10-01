@@ -1,0 +1,23 @@
+storage:
+  diretorio_metadados: "storage/metadata"
+  diretorio_logs: "storage/logs"
+  diretorio_arquivos: "storage/arquivos"
+  diretorio_backups: "storage/backups"
+upload:
+  tamanho_maximo_bytes: 10485760
+  tipos_permitidos:
+    - "image/jpeg"
+    - "image/png"
+    - "application/pdf"
+    - "text/plain"
+
+hashing:
+  algoritmo: "sha256"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "storage/logs/sistema.log"
+
+backup:
+  formato: "zip"
