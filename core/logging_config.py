@@ -3,9 +3,12 @@ import logging.config
 import yaml
 from pathlib import Path
 
+
+from core.archive_config import settings
 BASE_DIR = Path(__file__).resolve().parent.parent
 LOGGING_CONFIG_FILE = BASE_DIR / "logging.yaml"
-LOG_DIR = BASE_DIR / "storage" / "logs"
+pasta_logs = settings["storage"].get("diretorio_logs", BASE_DIR / "storage" / "logs")
+LOG_DIR = Path(pasta_logs)
 
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
