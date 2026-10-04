@@ -36,7 +36,7 @@ def buscar_por_id(arquivo: Path, id: str) -> Optional[dict[str, Any]]:
     for item in dados:
         if item.get("id") == id:
             return item
-    logger.warning(f"Item com ID {id} não encontrado no arquivo {arquivo}.")
+    logger.warning(f"Item com ID {id} nao encontrado no arquivo {arquivo}.")
     return None
 
 def atualizar(arquivo: Path, id: str, novos_dados: dict[str, Any]) -> bool:
@@ -48,7 +48,7 @@ def atualizar(arquivo: Path, id: str, novos_dados: dict[str, Any]) -> bool:
             escrever_json(arquivo, dados)
             logger.info(f"Item com ID {id} atualizado com sucesso no arquivo {arquivo}.")
             return True
-    logger.warning(f"Item com ID {id} não encontrado para atualização.")
+    logger.warning(f"Item com ID {id} nao encontrado para atualizacao.")
     return False
 
 def deletar(arquivo: Path, id: str) -> bool:

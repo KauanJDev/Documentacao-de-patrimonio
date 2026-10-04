@@ -46,7 +46,7 @@ def criar_backup():
         logger.info(mensagem)
         
     except Exception as e:
-        mensagem = f"Não foi possível criar backup {backup} : {e}"
+        mensagem = f"Nao foi possivel criar backup {backup} : {e}"
         logger.error(mensagem)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
