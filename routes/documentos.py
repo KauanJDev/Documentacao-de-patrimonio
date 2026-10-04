@@ -26,6 +26,54 @@ router = APIRouter(
     tags=["documentos"],
 )
 
+""" F02 - Listar documentos - liz """
+@router.get("", response_model=list[Documento])
+def listar_documentos():
+    documentos = ler_json(DOCUMENTOS_FILE)
+
+    logger.info(
+        "Listagem de documentos: %d registros", 
+        len(documentos)
+    )
+
+    return documentos
+
+""" F03 - Procurar por id - liz """
+@router.get("/{documento_id}", response_model=Documento)
+def obter_documento(documento_id: str):
+    documento = buscar_por_id(DOCUMENTOS_FILE, documento_id)
+
+    if not documento:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Documento nao encontrado"
+        )
+
+    logger.info(
+        "Consulta de documento: id = %s", 
+        documento_id
+    )
+
+    return documento
+
+""" F06 - Exclusao de documento - liz """
+@router.delete("/{documento_id}")
+def excluir_documento(documento_id = str):
+    if not deletar(DOCUMENTOS_FILE, documento_id):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Documento nao encontrado"
+        )
+
+    logger.info(
+        "Documento removido: %s",
+        documento_id
+    )
+
+    return{
+        "mensgem": "Documento removido com sucesso :)"
+    }
+
 def calcular_sha256(conteudo: bytes) -> str:
     sha256_hash = hashlib.sha256()
     sha256_hash.update(conteudo)
