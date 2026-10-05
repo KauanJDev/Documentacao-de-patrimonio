@@ -154,7 +154,7 @@ def criar_documento(
         logger.warning(f"Conflito de nome: {nome_armazenado}")
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="Já existe um arquivo armazenado com esse ID.",
+            detail="Ja existe um arquivo armazenado com esse ID.",
         )
 
     try:
@@ -197,19 +197,19 @@ def baixar_documento(documento_id: str):
     documento = buscar_por_id(DOCUMENTOS_FILE, documento_id)
 
     if not documento:
-        logger.warning(f"Documento com ID {documento_id} não encontrado para download.")
+        logger.warning(f"Documento com ID {documento_id} nao encontrado para download.")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Documento não encontrado.",
+            detail="Documento nao encontrado.",
         )
 
     try:
         caminho_arquivo = ARQUIVOS_DIR / documento["nome_armazenado"]
         if not caminho_arquivo.exists():
-            logger.error(f"Arquivo físico não encontrado para o documento ID {documento_id}.")
+            logger.error(f"Arquivo físico nao encontrado para o documento ID {documento_id}.")
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="Arquivo físico não encontrado.",
+                detail="Arquivo físico nao encontrado.",
             )
         logger.info(f"Documento com ID {documento_id} baixado com sucesso.")
         return FileResponse(
@@ -234,10 +234,10 @@ def atualizar_metadados(documento_id: str, categoria: str = Form(...),
     documento = buscar_por_id(DOCUMENTOS_FILE, documento_id)
 
     if not documento:
-        logger.warning(f"Documento com ID {documento_id} não encontrado para atualização.")
+        logger.warning(f"Documento com ID {documento_id} nao encontrado para atualizacao.")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Documento não encontrado.",
+            detail="Documento nao encontrado.",
         )
 
     try:
