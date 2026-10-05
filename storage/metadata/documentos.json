@@ -13,5 +13,20 @@
         "numero_patrimonial": "6767",
         "setor": "12",
         "situacao": "falido"
+    },
+    {
+        "id": "1e59007d-508c-4235-aad8-7104ec568422",
+        "nome_original": "texto.txt",
+        "nome_armazenado": "1e59007d-508c-4235-aad8-7104ec568422.txt",
+        "extensao": ".txt",
+        "tipo_mime": "text/plain",
+        "tamanho": 17394,
+        "categoria": "string",
+        "descricao": "string",
+        "data_upload": "2026-10-03T23:19:43.755139",
+        "sha256": "68808d1bf7a1e0e95085f23708a7c51a49058812e846925679075cf35f31c03d",
+        "numero_patrimonial": "string",
+        "setor": "string",
+        "situacao": "string"
     }
 ]

@@ -26,14 +26,56 @@ router = APIRouter(
     tags=["documentos"],
 )
 
-""" F02 - Listar documentos - liz """
+""" F02 e F07 - Listar e Filtrar documentos- liz """
 @router.get("", response_model=list[Documento])
-def listar_documentos():
+def listar_documentos(
+    extensao: str | None = None,
+    numero_patrimonial: str |None = None,
+    setor: str | None = None,
+    categoria: str | None = None,
+    situacao: str | None = None
+):
     documentos = ler_json(DOCUMENTOS_FILE)
 
+    if extensao:
+        documentos = [
+            doc for doc in documentos if (
+                doc["extensao"].lower() == extensao.lower()
+            )
+        ]
+
+    if numero_patrimonial:
+        documentos = [
+            doc for doc in documentos if (
+                doc["numero_patrimonial"].lower() == numero_patrimonial.lower()
+            )
+        ]
+
+    if setor:
+        documentos = [
+            doc for doc in documentos if (
+                doc["setor"].lower() == setor.lower()
+            )
+        ]
+
+    if categoria:
+        documentos = [
+            doc for doc in documentos if (
+                doc["categoria"].lower() == categoria.lower()
+            )
+        ]
+
+    if situacao:
+        documentos = [
+            doc for doc in documentos if (
+                doc["situacao"].lower() == situacao.lower()
+            )
+        ]
+
     logger.info(
-        "Listagem de documentos: %d registros", 
-        len(documentos)
+        "Listagem de documentos: %d registros"
+        "Filtros: extensao=%s, n.patrimonial=%s, setor=%s, categoria=%s, situacao=%s", 
+        len(documentos), extensao, numero_patrimonial, setor, categoria, situacao
     )
 
     return documentos
