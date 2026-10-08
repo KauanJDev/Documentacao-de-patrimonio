@@ -1,23 +1,12 @@
-import hashlib
-import uuid
 import csv
-import json
-from datetime import datetime
 from pathlib import Path
-from fastapi import APIRouter, File, Form, HTTPException, UploadFile, status
-from fastapi.encoders import jsonable_encoder
+from fastapi import APIRouter, HTTPException, status
 from fastapi.responses import FileResponse
 
 from core.logging_config import logger
 from core.archive_config import settings
-from models.Documento import Documento
 from services.json_repository import (
-    garantir_arquivo,
     ler_json,
-    escrever_json,
-    buscar_por_id,
-    atualizar,
-    deletar,
 )
 
 METADATA = Path(settings["storage"]["diretorio_metadados"])
@@ -34,6 +23,12 @@ router = APIRouter(
 @router.get("/csv", status_code=status.HTTP_200_OK)
 def exportar_csv():
     documentos = ler_json(DOCUMENTOS_FILE)
+    
+    if len(documentos) <= 0:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Arquivo CSV não foi gerado, nenhum documento registrado"
+        )
 
     try:
         if not DOCUMENTOS_FILE.exists():
