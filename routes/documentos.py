@@ -254,6 +254,37 @@ def criar_documento(
     logger.info(f"Documento com ID {documento.id} criado com sucesso.")
     return documento
 
+@router.get("/{documento_id}/integridade", status_code=status.HTTP_200_OK)
+def verificar_integridade(documento_id: str):
+    documento = buscar_por_id(DOCUMENTOS_FILE, documento_id)
+
+    if not documento:
+        raise HTTPException(status_code=404, detail="Documento não encontrado")
+
+    try:
+        caminho_arquivo = ARQUIVOS_DIR / documento["nome_armazenado"]
+        if not caminho_arquivo.exists():
+            raise HTTPException(status_code=404, detail="Documento não encontrado")
+        with open(caminho_arquivo, mode="rb") as file:
+            conteudo = file.read()
+
+        hash_atual = calcular_sha256(conteudo)
+        integro = documento["sha256"] == hash_atual
+
+        return {
+            "id" : documento["id"],
+            "nome" : documento["nome_original"],
+            "hash_orginal" : documento["sha256"],
+            "hash_atual" : hash_atual,
+            "íntegro" : integro
+        }
+    except Exception as e:
+        logger.error(f"Erro ao verificar integridade : {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Erro ao verificar integradade"
+        )
+
 @router.get("/{documento_id}/download",status_code=status.HTTP_200_OK)
 def baixar_documento(documento_id: str):
     documento = buscar_por_id(DOCUMENTOS_FILE, documento_id)
