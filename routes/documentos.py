@@ -80,6 +80,68 @@ def listar_documentos(
 
     return documentos
 
+@router.get("/estatisticas", status_code=status.HTTP_200_OK)
+def obter_estatisticas():
+    documentos = ler_json(DOCUMENTOS_FILE)
+
+    estatisticas = {
+        "total_documentos": len(documentos),
+        "tamanho_bytes": 0,
+        "por_extensao": {},
+        "por_categoria": {},
+        "por_setor": {},
+        "por_situacao": {},
+    }
+
+    for doc in documentos:
+
+        if "tamanho" in doc:
+            estatisticas["tamanho_bytes"] += doc["tamanho"]
+
+        if "categoria" in doc:
+            categoria = doc["categoria"]
+        else:
+            categoria = "nao informado"
+
+        if categoria in estatisticas["por_categoria"]:
+            estatisticas["por_categoria"][categoria] += 1
+        else:
+            estatisticas["por_categoria"][categoria] = 1
+
+        if "setor" in doc:
+            setor = doc["setor"]
+        else:
+            setor = "nao informado"
+
+        if setor in estatisticas["por_setor"]:
+            estatisticas["por_setor"][setor] += 1
+        else:
+            estatisticas["por_setor"][setor] = 1
+
+        if "situacao" in doc:
+            situacao = doc["situacao"]
+        else:
+            situacao = "nao informado"
+
+        if situacao in estatisticas["por_situacao"]:
+            estatisticas["por_situacao"][situacao] += 1
+        else:
+            estatisticas["por_situacao"][situacao] = 1
+
+        if "extensao" in doc:
+            extensao = doc["extensao"]
+        else:
+            extensao = "nao informado"
+
+        if extensao in estatisticas["por_extensao"]:
+            estatisticas["por_extensao"][extensao] += 1
+        else:
+            estatisticas["por_extensao"][extensao] = 1
+
+    logger.info("Consulta realizada para obter estatisticas dos documentos.")
+    return estatisticas
+
+
 """ F03 - Procurar por id - liz """
 @router.get("/{documento_id}", response_model=Documento)
 def obter_documento(documento_id: str):
@@ -126,7 +188,7 @@ def salvar_arquivo(conteudo: bytes, nome_armazenado: str) -> None:
     caminho_arquivo.parent.mkdir(parents=True, exist_ok=True)
     with open(caminho_arquivo, "wb") as f:
         f.write(conteudo)
-    logger.info(f"Arquivo fisico salvo em {caminho_arquivo}")
+    logger.info(f"Arquivo fisico salvo em {caminho_arquivo}.")
 
 @router.post("/", response_model=Documento, status_code=status.HTTP_201_CREATED)
 def criar_documento(
