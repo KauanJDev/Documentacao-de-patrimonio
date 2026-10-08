@@ -36,3 +36,9 @@ class Documento(BaseModel):
     situacao: str = Field(
         min_length=1, max_length=50, description="Situação atual do bem"
     )
+    equipamento_bem: str = Field(
+        min_length=1, max_length=100, description="Equipamento ou bem relacionado ao documento"
+    )
+    responsavel: str = Field(
+        min_length=1, max_length=100, description="Responsável pelo bem ou documento"
+    )
