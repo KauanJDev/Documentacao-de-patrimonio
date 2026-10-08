@@ -1,6 +1,6 @@
 # Documentação de Patrimônio
 
-> _Nome do projeto a decidir_
+- Cofre de Bens Patrimoniais
 
 ## Integrantes
 
@@ -18,16 +18,21 @@ Desenvolver uma API REST que funcione como um **Cofre Digital de Arquivos** para
 
 ## Requisitos
 
-- F01: Upload de arquivos com metadados.
-- F02: Listagem de documentos.
-- F03: Busca de documento por ID.
-- F04: Download do arquivo físico.
-- F05: Atualização de metadados.
-- F06: Exclusão de documentos.
-- F09: Verificação de Integridade (SHA-256).
-- F12: Configuração (leitura de variáveis via `config.yaml`).
-- F14: Geração de Backup Compactado (`.zip`).
-- F17: Tratamento de Exceções.
+- FT01: Upload de arquivos com metadados.
+- FT02: Listagem de documentos.
+- FT03: Busca de documento por ID.
+- FT04: Download do arquivo fisico.
+- FT05: Atualização de metadados.
+- FT06: Exclusão de documentos.
+- FT07: Filtros
+- FT08: Estatisticas do Cofre
+- FT09: Verificação de Integridade (SHA-256).
+- FT11: Sistema de Loggings
+- FT12: Configuração (leitura de variáveis via `archive_config.yaml`).
+- FT13: Exportação de documento para CSV
+- FT14: Geração de Backup Compactado.
+- FT16: Funcionalidade especifica do tema(listar com filtro de numero patrimonial)
+- FT17: Tratamento de Exceções.
 
 ## Bibliotecas Utilizadas
 
@@ -37,7 +42,7 @@ Desenvolver uma API REST que funcione como um **Cofre Digital de Arquivos** para
 | `uvicorn` | 0.52.4 | Servidor ASGI para rodar a aplicação FastAPI de forma assíncrona. |
 | `python-multipart` | 0.0.32 | Processamento de formulários (`Form`) e recepção de arquivos físicos (`UploadFile`). |
 | `pydantic` | 2.13.5 | Serialização, validação e estruturação dos modelos de dados. |
-| `PyYAML` | 6.0.3 | Leitura e mapeamento de configurações dinâmicas a partir do arquivo `config.yaml`. |
+| `PyYAML` | 6.0.3 | Leitura e mapeamento de configurações a partir do arquivo `archive_config.yaml`. |
 
 ## Instruções de Instalação
 
@@ -65,17 +70,18 @@ Após iniciar, a documentação interativa estará disponível em `http://127.0.
 
 ```
 documentacao-de-patrimonio/
-├── config.yaml          # Configurações da aplicação
-├── main.py              # Ponto de entrada da API
-├── core/                # Configurações e utilitários centrais
-├── models/              # Modelos de dados (Pydantic)
-├── routes/              # Rotas / endpoints
-├── services/            # Regras de negócio
-├── storage/             # Persistência (sem banco de dados)
-│   ├── arquivos/        # Arquivos binários enviados
-│   ├── backups/         # Backups .zip gerados
-│   ├── logs/            # Logs da aplicação
-│   └── metadata/        # Arquivos .json de metadados
+├── archive_config.yaml          
+├── logging.yaml
+├── main.py              
+├── core/                
+├── models/              
+├── routes/              
+├── services/            
+├── storage/             
+│   ├── arquivos/        
+│   ├── backups/         
+│   ├── logs/            
+│   └── metadata/        
 └── requirements.txt
 ```
 
@@ -83,12 +89,15 @@ documentacao-de-patrimonio/
 
 | Método | Rota | Descrição |
 |--------|------|-----------|
-| `POST` | `/documentos/` | Realiza o upload de um arquivo físico e cadastra seus metadados. |
-| `GET` | `/documentos/` | Retorna a lista de todos os documentos cadastrados (com suporte a filtros). |
+| `POST` | `/documentos/` | Realiza o upload de um arquivo físico e cadastra seus metadados (categoria, descrição, número patrimonial, setor, situação, equipamento/bem e responsável). Limite de tamanho configurável (padrão 10 MB). |
+| `GET` | `/documentos` | Retorna a lista de documentos cadastrados, com filtros opcionais: `extensao`, `numero_patrimonial`, `setor`, `categoria` e `situacao`. |
+| `GET` | `/documentos/estatisticas` | Retorna estatísticas gerais: total de documentos, tamanho total em bytes e contagem por extensão, categoria, setor e situação. |
 | `GET` | `/documentos/{id}` | Busca os metadados de um documento específico através do seu ID. |
 | `GET` | `/documentos/{id}/download` | Realiza o download do arquivo físico correspondente ao ID. |
-| `PUT` | `/documentos/{id}` | Atualiza as informações (metadados) de um documento patrimonial existente. |
-| `DELETE` | `/documentos/{id}` | Remove o registro do documento e o seu arquivo físico correspondente. |
+| `GET` | `/documentos/{id}/integridade` | Recalcula o SHA-256 do arquivo físico e compara com o hash registrado, informando se o arquivo está íntegro. |
+| `PUT` | `/documentos/{id}` | Atualiza os metadados de um documento patrimonial existente. |
+| `DELETE` | `/documentos/{id}` | Remove o registro do documento. |
+| `GET` | `/exportar/csv` | Gera e baixa um arquivo `documentos.csv` com todos os documentos cadastrados. Retorna 404 se não houver nenhum registro. |
 | `POST` | `/backup/` | Gera um arquivo compactado (`.zip`) contendo o backup seguro de todo o sistema. |
 
 ## Exemplos de Utilização
@@ -123,11 +132,14 @@ curl -X 'POST' \
 | Campo | Descrição | Exemplos |
 |-------|-----------|----------|
 | `numero_patrimonial` | Identificador único (geralmente uma plaqueta, código de barras ou tombamento) fixado fisicamente no bem. | `PAT-2026-001` |
+| `equipamento_bem` | Nome ou tipo do equipamento/bem patrimonial ao qual o documento se refere. | Notebook Dell Latitude, Projetor, Cadeira de escritório |
+| `responsavel` | Pessoa responsável pela guarda e uso do bem. | Maria Silva, João Pereira |
 | `setor` | Departamento ou localização física onde o bem está alocado no momento. | TI, Diretoria, Almoxarifado |
 | `situacao` | Status de uso e conservação do item. | Ativo, Em Manutenção, Emprestado, Baixado |
 | `categoria` | Classificação geral do ativo para fins de inventário. | Mobiliário, Equipamentos de TI, Veículos |
-| `descricao` | Descrição textual do bem ou do documento. | Notebook |
+| `descricao` | Descrição textual do documento ou observações sobre o bem. | Nota fiscal de compra, Termo de garantia |
 | `sha256` | Assinatura digital única do arquivo salvo, essencial para auditoria, comprovando que o documento não foi adulterado desde o upload. | — |
 
 ## Descrição da Funcionalidade Específica do Tema
-__
+
+- Filtragem na listagem do documento com número patrimonial.

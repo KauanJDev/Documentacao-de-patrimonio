@@ -198,13 +198,29 @@ def criar_documento(
     numero_patrimonial: str = Form(...),
     setor: str = Form(...),
     situacao: str = Form(...),
+    equipamento_bem: str = Form(...),
+    responsavel: str = Form(...)
 ):
     garantir_arquivo(DOCUMENTOS_FILE)
 
+    conteudo = arquivo.file.read()
+    tamanho = len(conteudo)
+
+    tamanho_maximo = settings["storage"].get("tamanho_maximo_bytes", 10485760) 
+
+    if tamanho > tamanho_maximo:
+        logger.warning(
+            f"Arquivo {arquivo.filename} estorou o tamanho maximo permitido de {tamanho_maximo} bytes."
+        )
+        raise HTTPException(
+            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
+            detail=f"Arquivo excede o tamanho máximo permitido de {tamanho_maximo} bytes.",
+        )
+
     documento_id = str(uuid.uuid4())
     nome_original = arquivo.filename
-    extensao = Path(nome_original).suffix.lower() if nome_original else ""
-    tipo_mime = arquivo.content_type or "application/octet-stream"
+    extensao = Path(nome_original).suffix.lower()
+    tipo_mime = arquivo.content_type
     conteudo = arquivo.file.read()
     tamanho = len(conteudo)
     sha256 = calcular_sha256(conteudo)
@@ -242,6 +258,8 @@ def criar_documento(
         numero_patrimonial=numero_patrimonial,
         setor=setor,
         situacao=situacao,
+        equipamento_bem=equipamento_bem,
+        responsavel=responsavel
     )
 
     documentos = ler_json(DOCUMENTOS_FILE)
@@ -322,7 +340,9 @@ def atualizar_metadados(documento_id: str, categoria: str = Form(...),
                         descricao: str = Form(default=""), 
                         numero_patrimonial: str = Form(...), 
                         setor: str = Form(...), 
-                        situacao: str = Form(...)):
+                        situacao: str = Form(...),
+                        equipamento_bem: str = Form(...),
+                        responsavel: str = Form(...)):
     
     documento = buscar_por_id(DOCUMENTOS_FILE, documento_id)
 
@@ -339,6 +359,8 @@ def atualizar_metadados(documento_id: str, categoria: str = Form(...),
         documento["numero_patrimonial"] = numero_patrimonial
         documento["setor"] = setor
         documento["situacao"] = situacao
+        documento["equipamento_bem"] = equipamento_bem
+        documento["responsavel"] = responsavel
 
         atualizar(DOCUMENTOS_FILE, documento_id, documento)
         
