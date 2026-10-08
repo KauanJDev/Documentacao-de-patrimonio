@@ -1,1 +1,32 @@
-[]
+[
+    {
+        "id": "8a8761a3-47d6-4ef4-9888-a65650a2173d",
+        "nome_original": "tradução-CleanCode.txt",
+        "nome_armazenado": "8a8761a3-47d6-4ef4-9888-a65650a2173d.txt",
+        "extensao": ".txt",
+        "tipo_mime": "text/plain",
+        "tamanho": 1667,
+        "categoria": "texto",
+        "descricao": "",
+        "data_upload": "2026-10-08T16:24:27.291111",
+        "sha256": "9170f9d36f1f74ca1c0e6633a3a17b066a579064479a3093a01b967f9a598b97",
+        "numero_patrimonial": "13",
+        "setor": "2",
+        "situacao": "manutençao"
+    },
+    {
+        "id": "9a0eab66-fde4-4a75-b2c3-6de7a059c86b",
+        "nome_original": "INTEGRAIS_.pdf",
+        "nome_armazenado": "9a0eab66-fde4-4a75-b2c3-6de7a059c86b.pdf",
+        "extensao": ".pdf",
+        "tipo_mime": "application/pdf",
+        "tamanho": 306596,
+        "categoria": "texto",
+        "descricao": "",
+        "data_upload": "2026-10-08T16:32:45.388278",
+        "sha256": "18d49e29c22d74209f2e0d800fae140060339357427cbcf13686926cdd776b59",
+        "numero_patrimonial": "13",
+        "setor": "2",
+        "situacao": "manutenção"
+    }
+]
