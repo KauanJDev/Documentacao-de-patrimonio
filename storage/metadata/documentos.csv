@@ -1,0 +1,4 @@
+id,nome_original,nome_armazenado,extensao,tipo_mime,tamanho,categoria,descricao,data_upload,sha256,numero_patrimonial,setor,situacao
+b5e70340-809e-40e6-a97d-5d9e5dc21cdf,medic.jpg,b5e70340-809e-40e6-a97d-5d9e5dc21cdf.jpg,.jpg,image/jpeg,475113,wallpaper,muito zika,2026-10-06T13:21:09.773155,b470aa6458f259992a2b049ebd5645e77b3bae7ef6e5b480a8cd232e34832779,123,Enfermagem,Íntegro
+e416419c-a572-46e9-89eb-8b96ee177609,green.png,e416419c-a572-46e9-89eb-8b96ee177609.png,.png,image/png,9827302,wallpaper,muito zika2,2026-10-06T13:23:49.557732,8a61219ffa2cf86f1667b49790b4d23f1483412335be6b6f63f3138597617597,312,Meio Ambiente,Íntegro e Funcional
+acf4b05b-19a9-4995-915f-f1b8bd725394,green.png,acf4b05b-19a9-4995-915f-f1b8bd725394.png,.png,image/png,9827302,wallpaper,muito zika2,2026-10-06T13:24:01.234572,8a61219ffa2cf86f1667b49790b4d23f1483412335be6b6f63f3138597617597,312,Meio Ambiente,Íntegro e Funcional
