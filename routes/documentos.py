@@ -221,7 +221,6 @@ def criar_documento(
     nome_original = arquivo.filename
     extensao = Path(nome_original).suffix.lower()
     tipo_mime = arquivo.content_type
-    conteudo = arquivo.file.read()
     tamanho = len(conteudo)
     sha256 = calcular_sha256(conteudo)
 
