@@ -24,14 +24,14 @@ Desenvolver uma API REST que funcione como um **Cofre Digital de Arquivos** para
 - FT04: Download do arquivo fisico.
 - FT05: Atualização de metadados.
 - FT06: Exclusão de documentos.
-- FT07: Filtros
+- FT07: Filtros.
 - FT08: Estatisticas do Cofre
 - FT09: Verificação de Integridade (SHA-256).
-- FT11: Sistema de Loggings
+- FT11: Sistema de Loggings.
 - FT12: Configuração (leitura de variáveis via `archive_config.yaml`).
-- FT13: Exportação de documento para CSV
+- FT13: Exportação de documento para CSV.
 - FT14: Geração de Backup Compactado.
-- FT16: Funcionalidade especifica do tema(listar com filtro de numero patrimonial)
+- FT16: Funcionalidade especifica do tema(listar com filtro de numero patrimonial).
 - FT17: Tratamento de Exceções.
 
 ## Bibliotecas Utilizadas
