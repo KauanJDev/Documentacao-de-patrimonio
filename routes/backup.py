@@ -14,10 +14,6 @@ BACKUPS_DIR = STORAGE_DIR / "backups"
 router = APIRouter(prefix="/backup", tags=["backup"])
 
 
-def nome_backup():
-    return 'backup_' + str(datetime.now()).replace(" ", "_") + ".zip"
-
-
 @router.get("", status_code=status.HTTP_200_OK)
 def criar_backup():
     backup = nome_backup()
